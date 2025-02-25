@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página Simples com Chat</title>
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("./Montserrat.ttf");
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 16px;
+        }
+
+        .chat-container {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 400px;
+            height: 500px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-container .chat-header {
+            align-items: center;
+            background-color: orangered;
+            color: white;
+            display: flex;
+            height: 50px;
+            padding: 0 20px;
+            font-family: "Montserrat", sans-serif;
+            font-size: 14px;
+        }
+
+        .chat-container #webchat {
+            height: calc(100% - 50px);
+            overflow: hidden;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Página com Chat</h1>
+    </div>
+
+    <button class="chat-button" onclick="toggleChat()">💬</button>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h1>Chat Área do Candidato</h1>
+        </div>
+        <div id="webchat" role="main"></div>
+    </div>
+
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+    <script>
+        //https://community.powerplatform.com/forums/thread/details/?threadid=c03aed69-3c53-4e56-ab4c-0e1b0aa5dbb3
+        function toggleChat() {
+            var chatContainer = document.getElementById("chatContainer");
+            if (
+                chatContainer.style.display === "none" ||
+                chatContainer.style.display === ""
+            ) {
+                chatContainer.style.display = "block";
+                initializeWebChat();
+            } else {
+                chatContainer.style.display = "none";
+            }
+        }
+
+        function initializeWebChat() {
+            const styleOptions = {
+                hideUploadButton: true,
+                backgroundColor: "white",
+                bubbleBackground: "#FFD580",
+                bubbleFromUserBackground: "#FFD580",
+                primaryFont: "Montserrat",
+                botAvatarBackgroundColor: "#FFFFFF",
+                botAvatarImage:
+                    "https://learn.microsoft.com/azure/bot-service/v4sdk/media/logo_bot.svg",
+                botAvatarInitials: "AN",
+                userAvatarBackgroundColor: "#FFFFFF",
+                userAvatarImage:
+                    "https://learn.microsoft.com/azure/bot-service/v4sdk/media/logo_bot.svg",
+                userAvatarInitials: "US",
+            };
+
+            const adaptiveCardsHostConfig = {
+                spacing: {
+                    small: 3,
+                    default: 8,
+                    medium: 20,
+                    large: 30,
+                    extraLarge: 40,
+                    padding: 10,
+                },
+                separator: {
+                    lineThickness: 1,
+                    lineColor: "#EEEEEE",
+                },
+                supportsInteractivity: true,
+                fontTypes: {
+                    default: {
+                        fontFamily: "Montserrat, sans-serif",
+                        fontSizes: {
+                            small: 16,
+                            default: 16,
+                            medium: 18,
+                            large: 22,
+                            extraLarge: 26,
+                        },
+                        fontWeights: {
+                            lighter: 200,
+                            default: 400,
+                            bolder: 600,
+                        },
+                    },
+                    monospace: {
+                        fontFamily: "Montserrat, sans-serif",
+                        fontSizes: {
+                            small: 16,
+                            default: 16,
+                            medium: 18,
+                            large: 22,
+                            extraLarge: 26,
+                        },
+                        fontWeights: {
+                            lighter: 200,
+                            default: 400,
+                            bolder: 600,
+                        },
+                    },
+                },
+                containerStyles: {
+                    default: {
+                        backgroundColor: "#FFD580",
+                        foregroundColors: {
+                            default: {
+                                default: "#000000",
+                                subtle: "#767676",
+                            },
+                            accent: {
+                                default: "#FF0000",
+                                subtle: "#FF0000",
+                            },
+                        },
+                    },
+                    accent: {
+                        backgroundColor: "#FFBF00",
+                        foregroundColors: {
+                            default: {
+                                default: "#FFFFFF",
+                                subtle: "#FFFFFF",
+                            },
+                            accent: {
+                                default: "orangered",
+                                subtle: "#FFFFFF",
+                            },
+                        },
+                    },
+                },
+                imageSizes: {
+                    small: 40,
+                    medium: 80,
+                    large: 160,
+                },
+                actions: {
+                    maxActions: 100,
+                    spacing: "default",
+                    buttonSpacing: 8,
+                    showCard: {
+                        actionMode: "inline",
+                        inlineTopMargin: 8,
+                    },
+                    actionsOrientation: "vertical",
+                    actionAlignment: "stretch",
+                },
+                adaptiveCard: {
+                    allowCustomStyle: true,
+                },
+                imageSet: {
+                    imageSize: "medium",
+                    maxImageHeight: 100,
+                },
+                factSet: {
+                    title: {
+                        color: "default",
+                        size: "default",
+                        isSubtle: false,
+                        weight: "bolder",
+                        wrap: true,
+                        maxWidth: 150,
+                    },
+                    value: {
+                        color: "default",
+                        size: "default",
+                        isSubtle: false,
+                        weight: "default",
+                        wrap: true,
+                    },
+                    spacing: 8,
+                },
+            };
+
+            const tokenEndpointURL = new URL(
+                "https://c6541a989433e2588d8b5f038e90f4.eb.environment.api.powerplatform.com/powervirtualagents/botsbyschema/crd7f_faqAreaDoCandidato/directline/token?api-version=2022-03-01-preview"
+            );
+
+            const locale = document.documentElement.lang || "en";
+            const apiVersion = tokenEndpointURL.searchParams.get("api-version");
+
+            (async function () {
+                const [directLineURL, token] = await Promise.all([
+                    fetch(
+                        new URL(
+                            `/powervirtualagents/regionalchannelsettings?api-version=${apiVersion}`,
+                            tokenEndpointURL
+                        )
+                    )
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(
+                                    "Failed to retrieve regional channel settings."
+                                );
+                            }
+                            return response.json();
+                        })
+                        .then(({ channelUrlsById: { directline } }) => directline),
+                    fetch(tokenEndpointURL)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Failed to retrieve Direct Line token.");
+                            }
+                            return response.json();
+                        })
+                        .then(({ token }) => token),
+                ]);
+
+                const directLine = WebChat.createDirectLine({
+                    domain: new URL("v3/directline", directLineURL),
+                    token,
+                });
+
+                const subscription = directLine.connectionStatus$.subscribe({
+                    next(value) {
+                        if (value === 2) {
+                            directLine
+                                .postActivity({
+                                    localTimezone:
+                                        Intl.DateTimeFormat().resolvedOptions().timeZone,
+                                    locale,
+                                    name: "startConversation",
+                                    type: "event",
+                                })
+                                .subscribe();
+
+                            subscription.unsubscribe();
+                        }
+                    },
+                });
+
+                WebChat.renderWebChat(
+                    { directLine, locale, styleOptions, adaptiveCardsHostConfig },
+                    document.getElementById("webchat")
+                );
+            })();
+        }
+    </script>
+</body>
+
+</html>

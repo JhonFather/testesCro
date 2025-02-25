@@ -1,0 +1,43 @@
+.cro-menu {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 4rem 1rem 2rem 1rem;
+  gap: 7.5px;
+}
+
+.cro-menu .cro-menu--button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+}
+
+.cro-menu .cro-menu--circle {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #b7b7b7;
+  border-radius: 50%;
+  background-color: transparent;
+  margin-bottom: 8px;
+}
+
+.cro-menu .cro-menu--text {
+  color: #000;
+  text-align: center;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+@media (min-width: 768px) {
+  .cro-menu {
+    display: none;
+  }
+}
