@@ -84,7 +84,6 @@ const modalTestHTML = /*html*/ `
         </div>
     </div>
 `;
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const newContentCard = {
     "administração": {
@@ -258,7 +257,6 @@ function applyModificationCardInteligent(containerTopCourses) {
                     const courseType = containerTitle?.querySelector('div > p');
                     const containerModality = card.querySelector('.product-card-ul');
                     const containerShifts = card.querySelector('[data-testid="course-details-undefined"]');
-                    const shifts = containerShifts?.querySelector('div:nth-of-type(2) > article').textContent;
 
                     const key = courseName?.textContent.toLowerCase();
                     
