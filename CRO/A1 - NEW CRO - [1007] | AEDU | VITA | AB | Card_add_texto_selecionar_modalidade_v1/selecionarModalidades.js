@@ -1,44 +1,5 @@
-function addStylesIfNeeded() {
-    const styles = /*css*/ `
-        :root {
-            --cro-primary: #F4511E;
-            --cro-bg: #FAFAFA;
-            --cro-p: #2B2B2F;
-            --cro-text: #C52E00;
-            --cro-text-active: #FFFFFF;
-        }
-        .cro-dark-mode {
-            --cro-primary: #FFAA8E;
-            --cro-bg: #292929;
-            --cro-p: #FAFAFA;
-            --cro-text: var(--cro-primary);
-            --cro-text-active: #000000;
-        }
-        .cro-contrast-mode {
-            --cro-primary: #F5FF00;
-            --cro-bg: #000000;
-            --cro-p: #FFFFFF;
-            --cro-text: var(--cro-primary);;
-            --cro-text-active: #000000;
-        }
-
-        .cro-paragraph-selecionar-modalidades {
-            color: var(--cro-p);
-            font-family: Montserrat;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: normal;
-        }
-    `;
-
-    if (!document.head.querySelector('#cro-styles-pague-facil')) {
-        const css = document.createElement("style");
-        css.id = "cro-styles-pague-facil";
-        css.type = "text/css";
-        css.textContent = styles;
-        document.head.insertAdjacentElement("afterbegin", css);
-    }
+let callback = {
+    topFiveSelecionarModalidadePersonalized: false,
 }
 
 function getStoredTheme() {
@@ -138,26 +99,95 @@ function applyModificationSelecionarModalidades(containerTopCourses) {
     }
 }
 
+function modifySelecionarModalidade(containerTopCourses) {
+    containerTopCourses.classList.add('already-haves-containerTopCourses-selecionarModalidade-personalization');
+
+    applyModificationSelecionarModalidades(containerTopCourses)
+
+    callback.topFiveSelecionarModalidadePersonalized = true;
+
+    const observerNew = new MutationObserver(applyModificationSelecionarModalidades(containerTopCourses));
+
+    observerNew.observe(containerTopCourses, { childList: true, subtree: true });
+}
+
+const addStyles = function (styles) {
+    const css = document.createElement("style");
+    css.type = "text/css";
+    if (css.styleSheet) {
+        css.styleSheet.cssText = styles;
+    }
+    else {
+        css.appendChild(document.createTextNode(styles));
+        document.head.insertAdjacentElement("afterbegin", css);
+    }
+};
+
 function startCroSelecionarModalidade() {
     console.warn('Teste selecionar modalidade rodando.');
 
     const containerTopCourses = document.getElementsByClassName('5-cursos-em-alta-anhanguera')[0];
 
-    if (document.documentElement.classList.contains('already-haves-test-selecionar-modalidade')) return
+    if (document.documentElement.classList.contains('already-haves-test-selecionar-modalidade')) {
+        return;
+    }
     document.documentElement.classList.add('already-haves-test-selecionar-modalidade');
 
-    addStylesIfNeeded();
+    const styles = /*css*/ `
+        :root {
+            --cro-primary: #F4511E;
+            --cro-bg: #FAFAFA;
+            --cro-p: #2B2B2F;
+            --cro-text: #C52E00;
+            --cro-text-active: #FFFFFF;
+        }
+        .cro-dark-mode {
+            --cro-primary: #FFAA8E;
+            --cro-bg: #292929;
+            --cro-p: #FAFAFA;
+            --cro-text: var(--cro-primary);
+            --cro-text-active: #000000;
+        }
+        .cro-contrast-mode {
+            --cro-primary: #F5FF00;
+            --cro-bg: #000000;
+            --cro-p: #FFFFFF;
+            --cro-text: var(--cro-primary);;
+            --cro-text-active: #000000;
+        }
+
+        .cro-paragraph-selecionar-modalidades {
+            color: var(--cro-p);
+            font-family: Montserrat;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+    `;
+
+    if (!document.documentElement.classList.contains('already-haves-addStyles-selecionar-modalide')) {
+        addStyles(styles);
+    }
+    document.documentElement.classList.add('already-haves-addStyles-selecionar-modalide');
+
     applyModificationSelecionarModalidades(containerTopCourses);
     getStoredTheme();
     forceUpdateTheme();
 
     const observerTopFive = new MutationObserver(() => {
-        if (containerTopCourses && !containerTopCourses.classList.contains('already-haves-containerTopCourses-cardInteligenteNovoEcomm-personalization')) {
-            applyModificationSelecionarModalidades(containerTopCourses);
+        if (containerTopCourses && !containerTopCourses.classList.contains('already-haves-containerTopCourses-selecionarModalidade-personalization')) {
+            modifySelecionarModalidade(containerTopCourses);
+        }
+
+        if (callback.topFiveSelecionarModalidadePersonalized) {
+            observerTopFive.disconnect()
         }
     });
     observerTopFive.observe(containerTopCourses, { childList: true, subtree: true });
 }
 
-document.addEventListener('DOMContentLoaded', startCroSelecionarModalidade);
+document.addEventListener('DOMContentLoaded', () => {
+    startCroSelecionarModalidade();
+})
 startCroSelecionarModalidade();
