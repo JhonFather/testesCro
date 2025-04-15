@@ -113,8 +113,9 @@ function loadScript(src) {
     scriptCDN.onload = callback;
     document.head.appendChild(scriptCDN);
 
+    // url antiga "https://c6541a989433e2588d8b5f038e90f4.eb.environment.api.powerplatform.com/powervirtualagents/botsbyschema/crd7f_faqAreaDoCandidato/directline/token?api-version=2022-03-01-preview"
     const tokenEndpointURL = new URL(
-        "https://c6541a989433e2588d8b5f038e90f4.eb.environment.api.powerplatform.com/powervirtualagents/botsbyschema/crd7f_faqAreaDoCandidato/directline/token?api-version=2022-03-01-preview"
+        "https://df93df8d0cc2e4cab1a511795a04bd.e7.environment.api.powerplatform.com/powervirtualagents/botsbyschema/crd7f_faqAreaDoCandidato_7XCy31/directline/token?api-version=2022-03-01-preview"
     );
     const locale = document.documentElement.lang || "en";
 

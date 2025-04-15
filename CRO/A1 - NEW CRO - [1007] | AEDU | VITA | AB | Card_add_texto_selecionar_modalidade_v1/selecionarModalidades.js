@@ -53,11 +53,7 @@ function applyModificationSelecionarModalidades(containerTopCourses) {
 
             if (slides) {
                 slides?.forEach((card) => {
-                    const containerTitle = card.querySelector('div > .product-card');
-                    const courseName = containerTitle?.querySelector('div > h3');
                     const containerModality = card.querySelector('.product-card-ul');
-
-                    const key = courseName?.textContent.toLowerCase();
 
                     if (window.screen.width > 768) {
                         card.style.setProperty("min-width", "327px", "important");
@@ -74,18 +70,6 @@ function applyModificationSelecionarModalidades(containerTopCourses) {
                             btnModality.forEach(btn => {
                                 btn.style.padding = "8px";
                                 btn.style.fontSize = "14px";
-                                
-                                if (btn.classList.contains('active')) {
-                                    btn.style.backgroundColor = "var(--cro-primary)";
-                                    btn.style.borderColor = "var(--cro-primary)";
-                                    btn.style.color = "var(--cro-text-active)";
-                                    btn.style.fontWeight = "500";
-                                } else {
-                                    btn.style.backgroundColor = "inherit";
-                                    btn.style.borderColor = "var(--cro-primary)";
-                                    btn.style.color = "var(--cro-text)";
-                                    btn.style.fontWeight = "400";
-                                }
                             })
                         }
 
@@ -106,8 +90,9 @@ function modifySelecionarModalidade(containerTopCourses) {
 
     callback.topFiveSelecionarModalidadePersonalized = true;
 
-    const observerNew = new MutationObserver(applyModificationSelecionarModalidades(containerTopCourses));
-
+    const observerNew = new MutationObserver(() => {
+        applyModificationSelecionarModalidades(containerTopCourses);
+    });
     observerNew.observe(containerTopCourses, { childList: true, subtree: true });
 }
 
@@ -126,7 +111,7 @@ const addStyles = function (styles) {
 function startCroSelecionarModalidade() {
     console.warn('Teste selecionar modalidade rodando.');
 
-    const containerTopCourses = document.getElementsByClassName('5-cursos-em-alta-anhanguera')[0];
+    const containerTopCourses = document.getElementsByClassName('cursos-em-alta-')[0];
 
     if (document.documentElement.classList.contains('already-haves-test-selecionar-modalidade')) {
         return;
@@ -163,6 +148,25 @@ function startCroSelecionarModalidade() {
             font-style: normal;
             font-weight: 700;
             line-height: normal;
+        }
+
+        .cursos-em-alta- .product-card-li button {
+            background-color: var(--cro-bg) !important;
+            border-color: var(--cro-primary) !important;
+            color: var(--cro-text) !important;
+            font-weight: 400 !important;
+        }
+        .cursos-em-alta- .product-card-li .active {
+            background-color: var(--cro-primary) !important;
+            border-color: var(--cro-primary) !important;
+            color: var(--cro-text-active) !important;
+            font-weight: 500 !important;
+        }
+        .cursos-em-alta- .product-card-li .active:focus {
+            background-color: var(--cro-primary) !important;
+            border-color: var(--cro-primary) !important;
+            color: var(--cro-text-active) !important;
+            font-weight: 500 !important;
         }
     `;
 
